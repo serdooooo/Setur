@@ -19,9 +19,9 @@ namespace RehberApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("RehberApi.Iletisim", b =>
+            modelBuilder.Entity("RehberApi.DataAccessLayer.Iletisim", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("IletisimID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -32,10 +32,15 @@ namespace RehberApi.Migrations
                     b.Property<string>("Mail")
                         .HasColumnType("text");
 
+                    b.Property<int?>("RehberlerUUID")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Telefon")
                         .HasColumnType("text");
 
-                    b.HasKey("ID");
+                    b.HasKey("IletisimID");
+
+                    b.HasIndex("RehberlerUUID");
 
                     b.ToTable("Iletisims");
                 });
@@ -56,23 +61,23 @@ namespace RehberApi.Migrations
                     b.Property<string>("Soyad")
                         .HasColumnType("text");
 
-                    b.Property<int?>("iletisimID")
-                        .HasColumnType("integer");
-
                     b.HasKey("UUID");
-
-                    b.HasIndex("iletisimID");
 
                     b.ToTable("Rehbers");
                 });
 
+            modelBuilder.Entity("RehberApi.DataAccessLayer.Iletisim", b =>
+                {
+                    b.HasOne("RehberApi.Rehber", "Rehberler")
+                        .WithMany("Iletisim")
+                        .HasForeignKey("RehberlerUUID");
+
+                    b.Navigation("Rehberler");
+                });
+
             modelBuilder.Entity("RehberApi.Rehber", b =>
                 {
-                    b.HasOne("RehberApi.Iletisim", "iletisim")
-                        .WithMany()
-                        .HasForeignKey("iletisimID");
-
-                    b.Navigation("iletisim");
+                    b.Navigation("Iletisim");
                 });
 #pragma warning restore 612, 618
         }
