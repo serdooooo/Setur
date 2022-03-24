@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RehberApi.DataAccessLayer;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,20 @@ namespace RehberApi.Controllers
     public class IletisimController : ControllerBase
     {
         Context c = new Context();
+
         [HttpGet]
-        public IActionResult IletisimList()
+        public async Task<ActionResult<IEnumerable<Iletisim>>> RehberList()
         {
-            var values = c.Iletisims.ToList();
-            return Ok(values);
+            var returnIletisim =  c.Iletisims
+                .Select(x => new
+                {
+                    ID = x.ID,
+                    Telefon = x.Telefon,
+                    Mail = x.Mail,
+                    Konum = x.Konum,
+                    CurrentUUID = x.CurrentUUID,
+                }).ToList();
+            return Ok(returnIletisim);
         }
         [HttpPost]
         public ActionResult IletisimAdd(Iletisim iletisim)
@@ -54,23 +64,6 @@ namespace RehberApi.Controllers
                 return Ok();
             }
         }
-        [HttpPut]
-        public IActionResult IletisimUpdate(Iletisim iletisim)
-        {
-            var ilt = c.Find<Iletisim>(iletisim.IletisimID);
-            if (ilt == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-
-                ilt.Mail = iletisim.Mail;
-                ilt.Telefon = iletisim.Telefon;
-                ilt.Konum = iletisim.Konum;
-                c.SaveChanges();
-                return Ok();
-            }
-        }
+        
     }
 }

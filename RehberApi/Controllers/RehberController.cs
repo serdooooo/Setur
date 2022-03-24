@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RehberApi.DataAccessLayer;
 using System;
@@ -14,11 +15,25 @@ namespace RehberApi.Controllers
     {
         Context c = new Context();
         [HttpGet("getrehber")]
-        public IActionResult RehberList()
+        public async Task<ActionResult<IEnumerable<Rehber>>> RehberList()
         {
-            var values = c.Rehbers.ToList();
-            c.SaveChanges();
-            return Ok(values);
+            var returnRehber = c.Rehbers
+                .Select(x => new
+                {
+                    UUID = x.UUID,
+                    Ad = x.Ad,
+                    Soyad = x.Soyad,
+                    Firma = x.Firma,
+                    Iletisim = x.Iletisims.Select(k => new {
+                        ID = k.ID,
+                        Telefon = k.Telefon,
+                        Mail = k.Mail,
+                        Konum = k.Konum,
+                        CurrentUUID = k.CurrentUUID,
+
+                    })
+                }).ToList();
+            return Ok(returnRehber);
         }
         [HttpPost]
         public ActionResult RehberAdd(Rehber rehber)

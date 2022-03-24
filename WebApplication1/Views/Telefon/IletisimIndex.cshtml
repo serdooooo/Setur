@@ -1,0 +1,27 @@
+﻿@using WebApplication1.Controllers
+@model List<Iletisim>
+@{
+    ViewData["Title"] = "IletisimIndex";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Telefon</th>
+        <th>Mail</th>
+        <th>Konum</th>
+        <th>Sil</th>
+        <th>Guncelle</th>
+    </tr>
+    @foreach (var r in Model)
+    {
+<tr>
+    <td>@r.Telefon</td>
+    <td>@r.Mail</td>
+    <td>@r.Konum</td>
+    <td><a href="/Telefon/DeleteIletisim/@r.ID" class="btn btn-outline-danger">Sil</a></td>
+    <td><a href="/Telefon/EditRehber/@r.ID" class="btn btn-outline-success">Guncelle</a></td>
+</tr>
+    }
+</table>
+
+

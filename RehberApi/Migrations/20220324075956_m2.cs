@@ -2,74 +2,76 @@
 
 namespace RehberApi.Migrations
 {
-    public partial class m3 : Migration
+    public partial class m2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Rehbers_Iletisims_IletisimID",
+                name: "FK_Rehbers_Iletisims_IletisimId",
                 table: "Rehbers");
 
             migrationBuilder.DropIndex(
-                name: "IX_Rehbers_IletisimID",
+                name: "IX_Rehbers_IletisimId",
                 table: "Rehbers");
 
             migrationBuilder.DropColumn(
-                name: "IletisimID",
+                name: "IletisimId",
                 table: "Rehbers");
 
             migrationBuilder.AddColumn<int>(
-                name: "RehberlerUUID",
+                name: "CurrentUUID",
                 table: "Iletisims",
                 type: "integer",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Iletisims_RehberlerUUID",
+                name: "IX_Iletisims_CurrentUUID",
                 table: "Iletisims",
-                column: "RehberlerUUID");
+                column: "CurrentUUID");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Iletisims_Rehbers_RehberlerUUID",
+                name: "FK_Iletisims_Rehbers_CurrentUUID",
                 table: "Iletisims",
-                column: "RehberlerUUID",
+                column: "CurrentUUID",
                 principalTable: "Rehbers",
                 principalColumn: "UUID",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Iletisims_Rehbers_RehberlerUUID",
+                name: "FK_Iletisims_Rehbers_CurrentUUID",
                 table: "Iletisims");
 
             migrationBuilder.DropIndex(
-                name: "IX_Iletisims_RehberlerUUID",
+                name: "IX_Iletisims_CurrentUUID",
                 table: "Iletisims");
 
             migrationBuilder.DropColumn(
-                name: "RehberlerUUID",
+                name: "CurrentUUID",
                 table: "Iletisims");
 
             migrationBuilder.AddColumn<int>(
-                name: "IletisimID",
+                name: "IletisimId",
                 table: "Rehbers",
                 type: "integer",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rehbers_IletisimID",
+                name: "IX_Rehbers_IletisimId",
                 table: "Rehbers",
-                column: "IletisimID");
+                column: "IletisimId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Rehbers_Iletisims_IletisimID",
+                name: "FK_Rehbers_Iletisims_IletisimId",
                 table: "Rehbers",
-                column: "IletisimID",
+                column: "IletisimId",
                 principalTable: "Iletisims",
-                principalColumn: "IletisimID",
-                onDelete: ReferentialAction.Restrict);
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

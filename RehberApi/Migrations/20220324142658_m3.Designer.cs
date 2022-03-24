@@ -10,7 +10,7 @@ using RehberApi.DataAccessLayer;
 namespace RehberApi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220324024018_m3")]
+    [Migration("20220324142658_m3")]
     partial class m3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,10 +23,13 @@ namespace RehberApi.Migrations
 
             modelBuilder.Entity("RehberApi.DataAccessLayer.Iletisim", b =>
                 {
-                    b.Property<int>("IletisimID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("CurrentUUID")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Konum")
                         .HasColumnType("text");
@@ -34,15 +37,12 @@ namespace RehberApi.Migrations
                     b.Property<string>("Mail")
                         .HasColumnType("text");
 
-                    b.Property<int?>("RehberlerUUID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Telefon")
                         .HasColumnType("text");
 
-                    b.HasKey("IletisimID");
+                    b.HasKey("ID");
 
-                    b.HasIndex("RehberlerUUID");
+                    b.HasIndex("CurrentUUID");
 
                     b.ToTable("Iletisims");
                 });
@@ -70,16 +70,16 @@ namespace RehberApi.Migrations
 
             modelBuilder.Entity("RehberApi.DataAccessLayer.Iletisim", b =>
                 {
-                    b.HasOne("RehberApi.Rehber", "Rehberler")
-                        .WithMany("Iletisim")
-                        .HasForeignKey("RehberlerUUID");
+                    b.HasOne("RehberApi.Rehber", "Rehber")
+                        .WithMany("Iletisims")
+                        .HasForeignKey("CurrentUUID");
 
-                    b.Navigation("Rehberler");
+                    b.Navigation("Rehber");
                 });
 
             modelBuilder.Entity("RehberApi.Rehber", b =>
                 {
-                    b.Navigation("Iletisim");
+                    b.Navigation("Iletisims");
                 });
 #pragma warning restore 612, 618
         }

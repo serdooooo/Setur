@@ -10,9 +10,15 @@ namespace RehberApi.DataAccessLayer
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=PhoneDirectory;User Id=postgres;Password=1234;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=TelefonDb;User Id=postgres;Password=1234;");
         }
-        //public Context(DbContextOptions<Context> options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Iletisim>()
+                .HasOne<Rehber>(s => s.Rehber)
+                .WithMany(g => g.Iletisims)
+                .HasForeignKey(s => s.CurrentUUID);
+        }
         public DbSet<Rehber> Rehbers { get; set; }
         public DbSet<Iletisim> Iletisims { get; set; }
     }

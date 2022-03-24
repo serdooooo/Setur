@@ -10,10 +10,12 @@ namespace RehberApi.DataAccessLayer
     public class Iletisim
     {
         [Key]
-        public int IletisimID { get; set; }
+        public int ID { get; set; }
         public string Telefon { get; set; }
         public string Mail { get; set; }
         public string Konum { get; set; }
-        public Rehber Rehberler { get; set; }
+
+        public int? CurrentUUID { get; set; }
+        public Rehber Rehber { get; set; }
     }
 }

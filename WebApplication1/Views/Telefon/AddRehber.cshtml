@@ -1,0 +1,19 @@
+﻿@using WebApplication1.Controllers
+@model Rehber
+@{
+    ViewData["Title"] = "AddRehber";
+}
+
+<form method="post">
+    <label>Ad</label>
+    <input type="text" asp-for="@Model.Ad" class="form-control" />
+    <br />
+    <label>Soyad</label>
+    <input type="text" asp-for="@Model.Soyad" class="form-control" />
+    <br />
+    <label>Firma</label>
+    <input type="text" asp-for="@Model.Firma" class="form-control" />
+    <br />
+    <button type="submit" class="btn btn-info">Ekle</button>
+</form>
+

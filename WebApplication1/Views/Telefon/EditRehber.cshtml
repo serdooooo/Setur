@@ -1,0 +1,22 @@
+﻿@model WebApplication1.Controllers.Rehber
+@{
+    ViewData["Title"] = "EditRehber";
+}
+
+<h1>Kisi Guncelleme</h1>
+<form method="post">
+    <label>Id</label>
+    @Html.TextBoxFor(x => x.UUID, new { @class = "form-control"})
+    <br />
+    <label>Ad</label>
+    @Html.TextBoxFor(x => x.Ad, new { @class = "form-control" })
+    <br />
+    <label>Soyad</label>
+    @Html.TextBoxFor(x => x.Soyad, new { @class = "form-control" })
+    <br />
+    <label>Firma</label>
+    @Html.TextBoxFor(x => x.Firma, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-success">Guncelle</button>
+</form>
+

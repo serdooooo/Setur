@@ -1,0 +1,23 @@
+﻿@model WebApplication1.Controllers.Iletisim
+
+@{
+    ViewData["Title"] = "GetIdIletisimIndex";
+}
+
+<h1>Kisi Guncelleme</h1>
+<form method="get">
+    <label>Id</label>
+    @Html.TextBoxFor(x => x.CurrentUUID, new { @class = "form-control" })
+    <br />
+    <label>Ad</label>
+    @Html.TextBoxFor(x => x.Mail, new { @class = "form-control" })
+    <br />
+    <label>Soyad</label>
+    @Html.TextBoxFor(x => x.Konum, new { @class = "form-control" })
+    <br />
+    <label>Firma</label>
+    @Html.TextBoxFor(x => x.Telefon, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-success">Guncelle</button>
+</form>
+
