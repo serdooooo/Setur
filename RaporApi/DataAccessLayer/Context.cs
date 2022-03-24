@@ -8,7 +8,10 @@ namespace RaporApi.DataAccessLayer
 {
     public class Context : DbContext
     {
-        public Context(DbContextOptions<Context> options) : base(options) { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=TelefonDb;User Id=postgres;Password=1234;");
+        }
         public DbSet<Rapor> Rapors { get; set; }
     }
 }

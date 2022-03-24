@@ -1,0 +1,26 @@
+﻿@using WebApplication1.Controllers
+@model List<Rapor>
+@{
+    ViewData["Title"] = "RaporIndex";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Tarih</th>
+        <th>Durum</th>
+        <th>Sil</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.raporDate</td>
+            <td>@r.raporDurum</td>
+            <td><a href="/Telefon/DeleteRapor/@r.UUID" class="btn btn-outline-danger">Sil</a></td>
+            <td><a href="/Telefon/EditRapor/@r.UUID" class="btn btn-outline-warning">Güncelle</a></td>
+        </tr>
+    }
+</table>
+
+<a href="/Telefon/AddRapor" class="btn btn-outline-primary">Yeni rapor ekle</a>
+

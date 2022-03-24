@@ -1,0 +1,20 @@
+﻿@model WebApplication1.Controllers.Rapor
+
+@{
+    ViewData["Title"] = "EditRapor";
+}
+
+<h1>Rapor Guncelleme</h1>
+<form method="post">
+    <label>Id</label>
+    @Html.TextBoxFor(x => x.UUID, new { @class = "form-control" })
+    <br />
+    <label>Ad</label>
+    @Html.TextBoxFor(x => x.raporDate, new { @class = "form-control" })
+    <br />
+    <label>Soyad</label>
+    @Html.TextBoxFor(x => x.raporDurum, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-success">Guncelle</button>
+</form>
+

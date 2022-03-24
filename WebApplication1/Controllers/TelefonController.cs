@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Index()
         {
             var httpClient = new HttpClient();
-            var responseMessage = await httpClient.GetAsync("https://localhost:44310/Rehber/getrehber");
+            var responseMessage = await httpClient.GetAsync("https://localhost:44306/Rehber/getrehber");
             var jsonString = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<Rehber>>(jsonString);
             return View(values);
@@ -107,10 +107,76 @@ namespace WebApplication1.Controllers
             }
             return View();
         }
+        //https://localhost:44306/Rapor/getrapor
+        public async Task<IActionResult> RaporIndex()
+        {
+            var httpClient = new HttpClient();
+            var responseMessage = await httpClient.GetAsync("https://localhost:44306/Rapor/getrapor");
+            var jsonString = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<Rapor>>(jsonString);
+            return View(values);
+        }
+
+
+
+
+        public IActionResult AddRapor()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddRapor(Rapor r)
+        {
+            var httpClient = new HttpClient();
+            var jsonRapor = JsonConvert.SerializeObject(r);
+            StringContent content = new StringContent(jsonRapor, Encoding.UTF8, "application/json");
+            var responseMessage = await httpClient.PostAsync("https://localhost:44366/Rapor", content);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(r);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditRapor(int id)
+        {
+            var httpClient = new HttpClient();
+            var responseMessage = await httpClient.GetAsync("https://localhost:44366/Rapor/" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonRapor = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<Rapor>(jsonRapor);
+                return View(values);
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRapor(Rapor r)
+        {
+            var httpClient = new HttpClient();
+            var jsonRapor = JsonConvert.SerializeObject(r);
+            var content = new StringContent(jsonRapor, Encoding.UTF8, "application/json");
+            var responseMessage = await httpClient.PutAsync("https://localhost:44366/Rapor", content);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(r);
+        }
+        public async Task<IActionResult> DeleteRapor(int id)
+        {
+            var httpClient = new HttpClient();
+            var responseMessage = await httpClient.DeleteAsync("https://localhost:44366/Rapor/" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
 
 
     }
-            public class Rehber
+    public class Rehber
         {
             public int UUID { get; set; }
             public string Ad { get; set; }
@@ -128,4 +194,10 @@ namespace WebApplication1.Controllers
             public int CurrentUUID { get; set; }
             public Rehber Rehber { get; set; }
         }
+    public class Rapor
+    {
+        public int UUID { get; set; }
+        public DateTime raporDate { get; set; } = DateTime.Now;
+        public string raporDurum { get; set; }
+    }
 }

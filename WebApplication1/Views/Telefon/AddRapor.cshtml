@@ -1,0 +1,16 @@
+﻿@using WebApplication1.Controllers
+@model Rapor
+@{
+    ViewData["Title"] = "AddRapor";
+}
+
+<form method="post">
+    <label>Tarih</label>
+    <input type="text" asp-for="@Model.raporDate" class="form-control" />
+    <br />
+    <label>Durum</label>
+    <input type="text" asp-for="@Model.raporDurum" class="form-control" />
+    <br />
+    <button type="submit" class="btn btn-info">Ekle</button>
+</form>
+

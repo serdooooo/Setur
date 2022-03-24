@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RaporApi.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,64 @@ namespace RaporApi.Controllers
     [Route("[controller]")]
     public class RaporController : ControllerBase
     {
-
-        private static List<Rapor> raporList = new List<Rapor>()
-        {
-            new Rapor(){UUID=1,raporDurum="Tamamlandı",raporDate=DateTime.Now },
-            new Rapor(){UUID=2,raporDurum="Hazirlaniyor",raporDate=DateTime.Now },
-        };
+        Context c = new Context();
 
         [HttpGet("getrapor")]
         public IActionResult Get()
         {
-            return Ok(raporList);
+            var values = c.Rapors.ToList();
+            return Ok(values);
+        }
+        [HttpPost]
+        public ActionResult RaporAdd(Rapor rapor)
+        {
+            c.Add(rapor);
+            c.SaveChanges();
+            return Ok();
+        }
+        [HttpGet("{id}")]
+        public IActionResult RaporGet(int id)
+        {
+            var rapor = c.Rapors.Find(id);
+            if (rapor == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(rapor);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult RaporDelete(int id)
+        {
+            var rapor = c.Rapors.Find(id);
+            if (rapor == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                c.Remove(rapor);
+                c.SaveChanges();
+                return Ok();
+            }
+        }
+        [HttpPut]
+        public IActionResult RehberUpdate(Rapor rapor)
+        {
+            var r = c.Find<Rapor>(rapor.UUID);
+            if (r == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                r.raporDate = rapor.raporDate;
+                r.raporDurum = rapor.raporDurum;
+                c.SaveChanges();
+                return Ok();
+            }
         }
     }
 }
